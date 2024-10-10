@@ -1,4 +1,4 @@
-package br.com.desafio_magaLu.comunicacao.domain.communications;
+package br.com.desafio_magaLu.comunicacao.domain;
 
 public enum CommunicationChannel {
     EMAIL,

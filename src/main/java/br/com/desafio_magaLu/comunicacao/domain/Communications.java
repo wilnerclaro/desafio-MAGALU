@@ -1,4 +1,4 @@
-package br.com.desafio_magaLu.comunicacao.domain.communications;
+package br.com.desafio_magaLu.comunicacao.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,10 +16,22 @@ import java.time.LocalDateTime;
 public class Communications {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_AGENDAMENTO")
     private Long id;
+    @Column(name = "DT_AGENDAMENTO")
     private LocalDateTime scheduleTime;
+    @Column(name = "DT_ATUALIZACAO")
+    private LocalDateTime updateTime;
+    @Column(name = "MENSSAGEM")
     private String menssage;
+    @Column(name = "DESTINATARIO")
+    private String recipient;
+    @Column(name = "TIPO_ENVIO")
     private CommunicationChannel channel;
+    @Column(name = "STATUS")
     private Status status;
+    @Column(name = "MENSSAGEM_ID")
+    private String rabbitMessageId;
+
 
 }
