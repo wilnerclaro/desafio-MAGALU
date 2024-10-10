@@ -20,7 +20,7 @@ public class CommunicationService {
             Communications communicationToEntity = communicationMapper.convertToCommunicationEntity(communicationDTO);
             return communicationMapper.convertToCommunicationDTO(communicationRepository.save(communicationToEntity));
         } catch (Exception e) {
-            throw new CommunicationException("Falha ao agendar o envio da requisição: " + e.getMessage());
+            throw new CommunicationException("Falha ao agendar o envio da requisição: ");
         }
     }
 }
