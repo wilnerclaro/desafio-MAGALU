@@ -106,6 +106,36 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <configuration>
+                    <excludes>
+                        <exclude>br.com.desafio_magaLu.comunicacao.domain*</exclude>
+                        <exclude>br.com.desafio_magaLu.comunicacao.repositories.*</exclude>
+                        <exclude>br.com.desafio_magaLu.comunicacao.DTO.*</exclude>
+                        <exclude>br.com.desafio_magaLu.comunicacao.controller.*</exclude>
+                        <exclude>br.com.desafio_magaLu.comunicacao.mapper.*</exclude>
+
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
