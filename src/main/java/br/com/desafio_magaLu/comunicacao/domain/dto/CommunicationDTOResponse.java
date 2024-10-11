@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public record CommunicationDTOResponse(
         LocalDateTime scheduleTime,
-        String menssage, String recipient,
+        String message, String recipient,
         CommunicationChannel channel,
         Status status) {
 }

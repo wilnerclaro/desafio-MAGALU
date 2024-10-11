@@ -15,7 +15,7 @@ public class CommunicationMapper {
                 .status(Status.SCHEDULED)
                 .scheduleTime(communicationDTO.scheduleTime())
                 .recipient(communicationDTO.recipient().toUpperCase())
-                .menssage(communicationDTO.menssage())
+                .message(communicationDTO.message())
                 .build();
     }
 
@@ -23,7 +23,7 @@ public class CommunicationMapper {
         return CommunicationDTOResponse.builder()
                 .channel(communications.getChannel())
                 .recipient(communications.getRecipient().toUpperCase())
-                .menssage(communications.getMenssage())
+                .message(communications.getMessage())
                 .scheduleTime(communications.getScheduleTime())
                 .status(communications.getStatus())
                 .channel(communications.getChannel())

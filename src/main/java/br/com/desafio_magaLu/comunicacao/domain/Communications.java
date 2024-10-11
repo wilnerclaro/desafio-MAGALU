@@ -23,7 +23,7 @@ public class Communications {
     @Column(name = "DT_ATUALIZACAO")
     private LocalDateTime updateTime;
     @Column(name = "MENSSAGEM")
-    private String menssage;
+    private String message;
     @Column(name = "DESTINATARIO")
     private String recipient;
     @Column(name = "TIPO_ENVIO")

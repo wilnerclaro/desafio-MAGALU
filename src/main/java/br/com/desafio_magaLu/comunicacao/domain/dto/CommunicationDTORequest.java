@@ -8,6 +8,6 @@ import java.time.LocalDateTime;
 @Builder
 public record CommunicationDTORequest(
         LocalDateTime scheduleTime,
-        String menssage, String recipient,
+        String message, String recipient,
         CommunicationChannel channel) {
 }

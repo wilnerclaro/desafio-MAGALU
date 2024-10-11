@@ -36,8 +36,10 @@ public class CommunicationService {
 
     public CommunicationDTOResponse cancelScheduleCommunicationById(Long schedulleId) {
         Communications communication = communicationRepository.findById(schedulleId).orElseThrow(() -> new CommunicationException("Não foi encontrado o agendamento informado"));
-        communication.setStatus(Status.CANCELLED);
-        communication.setUpdateTime(LocalDateTime.now());
+        if (communication.getStatus().equals(Status.SCHEDULED)) {
+            communication.setStatus(Status.CANCELLED);
+            communication.setUpdateTime(LocalDateTime.now());
+        }
         communicationRepository.save(communication);
         return communicationMapper.convertToCommunicationDTO(communication);
 

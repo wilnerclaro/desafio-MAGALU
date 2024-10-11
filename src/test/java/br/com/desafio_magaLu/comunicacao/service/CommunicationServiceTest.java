@@ -42,11 +42,11 @@ class CommunicationServiceTest {
         communications.setScheduleTime(LocalDateTime.now());
         communications.setChannel(CommunicationChannel.EMAIL);
         communications.setStatus(Status.SCHEDULED);
-        communications.setMenssage("CENARIO 01");
+        communications.setMessage("CENARIO 01");
 
         communicationDTOResponse = new CommunicationDTOResponse(
                 communications.getScheduleTime(),
-                communications.getMenssage(),
+                communications.getMessage(),
                 communications.getRecipient(),
                 communications.getChannel(),
                 communications.getStatus()
@@ -86,7 +86,7 @@ class CommunicationServiceTest {
         CommunicationDTOResponse scheduleCommunicationById = communicationService.findScheduleCommunicationById(scheduleId);
 
         assertNotNull(scheduleCommunicationById);
-        assertEquals(communications.getMenssage(), scheduleCommunicationById.menssage());
+        assertEquals(communications.getMessage(), scheduleCommunicationById.message());
         assertEquals(communications.getRecipient(), scheduleCommunicationById.recipient());
         assertEquals(communications.getChannel(), scheduleCommunicationById.channel());
         assertEquals(communications.getStatus(), scheduleCommunicationById.status());
@@ -122,7 +122,7 @@ class CommunicationServiceTest {
             updatedCommunication.setUpdateTime(LocalDateTime.now());
             return new CommunicationDTOResponse(
                     updatedCommunication.getScheduleTime(),
-                    updatedCommunication.getMenssage(),
+                    updatedCommunication.getMessage(),
                     updatedCommunication.getRecipient(),
                     updatedCommunication.getChannel(),
                     updatedCommunication.getStatus()
@@ -133,7 +133,7 @@ class CommunicationServiceTest {
 
         assertNotNull(cancelScheduleCommunication);
         assertEquals(Status.CANCELLED, communications.getStatus());
-        assertEquals(communications.getMenssage(), cancelScheduleCommunication.menssage());
+        assertEquals(communications.getMessage(), cancelScheduleCommunication.message());
         assertEquals(communications.getRecipient(), cancelScheduleCommunication.recipient());
         assertEquals(communications.getChannel(), cancelScheduleCommunication.channel());
         assertEquals(communications.getStatus(), cancelScheduleCommunication.status());
@@ -148,6 +148,7 @@ class CommunicationServiceTest {
         Long scheduleId = 2L;
         when(communicationRepository.findById(scheduleId)).thenReturn(Optional.empty());
 
+        // Act & Assert
         CommunicationException exception = assertThrows(CommunicationException.class, () ->
                 communicationService.cancelScheduleCommunicationById(scheduleId)
         );
