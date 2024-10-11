@@ -1,67 +1,60 @@
 # desafio-MAGALU
 
-# Projeto de ServiÁo de ComunicaÁ„o
+# Projeto de Servi√ßo de Comunica√ß√£o
 
-## Vis„o Geral
+## Vis√£o Geral
 
-Este projeto È um serviÁo de agendamento de comunicaÁıes construÌdo em Java e Spring Boot. Ele fornece APIs REST para
-agendar, buscar e cancelar tarefas de comunicaÁ„o. As comunicaÁıes podem ser agendadas utilizando diferentes canais,
-como EMAIL, SMS, etc., e s„o armazenadas em um banco de dados relacional.
+Este projeto √© um servi√ßo de agendamento de comunica√ß√µes constru√≠do em Java e Spring Boot. Ele fornece APIs REST para
+agendar, buscar e cancelar tarefas de comunica√ß√£o. As comunica√ß√µes podem ser agendadas utilizando diferentes canais,
+como EMAIL, SMS, etc., e s√£o armazenadas em um banco de dados relacional.
 
 ## Funcionalidades
 
-- Agendar uma comunicaÁ„o para ser enviada em um hor·rio especificado.
-- Buscar detalhes de uma comunicaÁ„o agendada pelo ID.
-- Cancelar uma comunicaÁ„o agendada.
+- Agendar uma comunica√ß√£o para ser enviada em um hor√°rio especificado.
+- Buscar detalhes de uma comunica√ß√£o agendada pelo ID.
+- Cancelar uma comunica√ß√£o agendada.
 
 ## Tecnologias Utilizadas
 
-- **Java 11**: Linguagem de programaÁ„o principal utilizada no desenvolvimento.
-- **Spring Boot**: Framework para construir a API REST e lidar com injeÁ„o de dependÍncias.
+- **Java 11**: Linguagem de programa√ß√£o principal utilizada no desenvolvimento.
+- **Spring Boot**: Framework para construir a API REST e lidar com inje√ß√£o de depend√™ncias.
 - **Spring Data JPA**: Para interagir com o banco de dados relacional e gerenciar entidades.
-- **Lombok**: Para reduzir cÛdigo boilerplate, como getters, setters e construtores.
-- **H2 Database** (para testes): Banco de dados em memÛria para facilitar testes locais.
-- **PostgreSQL** : Banco de dados respons·vel por persistir os dados
-- **Swagger** : DocumentaÁ„o dos end-points da aplicaÁ„o
-- **Mockito** : Framework respons·vel por auxiliar na criaÁ„o e execuÁ„o dos testes unit·rios
-- **JUnit5** : Framework respons·vel por auxiliar na criaÁ„o e execuÁ„o dos testes unit·rios
+- **Lombok**: Para reduzir c√≥digo boilerplate, como getters, setters e construtores.
+- **H2 Database** (para testes): Banco de dados em mem√≥ria para facilitar testes locais.
+- **PostgreSQL** : Banco de dados respons√°vel por persistir os dados
+- **Swagger** : Documenta√ß√£o dos end-points da aplica√ß√£o
+- **Mockito** : Framework respons√°vel por auxiliar na cria√ß√£o e execu√ß√£o dos testes unit√°rios
+- **JUnit5** : Framework respons√°vel por auxiliar na cria√ß√£o e execu√ß√£o dos testes unit√°rios
 
-## PrÈ-requisitos
+## Pr√©-requisitos
 
 - **Java 11** ou superior.
 - **Maven**: Para construir o projeto.
-- **PostgreSQL**: Para armazenar dados de comunicaÁ„o (ou usar H2 para testes).
+- **PostgreSQL**: Para armazenar dados de comunica√ß√£o (ou usar H2 para testes).
 
-## InstruÁıes de ConfiguraÁ„o
+## Instru√ß√µes de Configura√ß√£o
 
-### 1. Clonar o RepositÛrio
+### 1. Clonar o Reposit√≥rio
 
 ```bash
 git clone https://github.com/wilnerclaro/desafio-MAGALU.git
 ```
 
-### 2. Construir o Projeto
 
-Use o Maven para construir o projeto:
+### 2. Configurar a Aplica√ß√£o
 
-```bash
-mvn clean install
-```
-
-### 3. Configurar a AplicaÁ„o
-
-A aplicaÁ„o possui 2 profiles **dev** e **test**, onde o profile dev utiliza o banco de dados **PostgreSQL** e **test**
+A aplica√ß√£o possui 2 profiles **dev** e **test**, onde o profile dev utiliza o banco de dados **PostgreSQL** e **test**
 utiliza o banco em memoria H2.
 Atualize o arquivo `application.properties` com o profile desejado :
 
 ```properties
-# ConfiguraÁ„o do profile
+# Configura√ß√£o do profile
 spring.profiles.active=${APP_PROFILE:test}
 spring.jpa.open-in-view=false
 ```
 
 ```properties
-# ConfiguraÁ„o do Banco de Dados
+# Configura√ß√£o do Banco de Dados
 spring.application.name=comunicacao-api
 spring.datasource.url=jdbc:postgresql://localhost:5432/seu_schema
 spring.datasource.username=seu_usuario_db
@@ -73,16 +66,16 @@ spring.jpa.hibernate.ddl-auto=update
 
 ## Endpoints da API
 
-Apos iniciar a aplicaÁ„o ,
-vocÍ pode ver a documentaÁ„o da API a partir do seguinte caminho:
+Apos iniciar a aplica√ß√£o ,
+voc√™ pode ver a documenta√ß√£o da API a partir do seguinte caminho:
 
 ```bash
 http://localhost:8080/swagger-ui/index.html
 ```
 
-- **Agendar ComunicaÁ„o**
+- **Agendar Comunica√ß√£o**
     - **POST** `/api/communication/new`
-    - **Corpo da RequisiÁ„o**:
+    - **Corpo da Requisi√ß√£o**:
       ```json
       {
         "scheduleTime": "2024-10-10T20:47:24.699Z",
@@ -92,21 +85,21 @@ http://localhost:8080/swagger-ui/index.html
       }
       ```
 
-- **Buscar ComunicaÁ„o Agendada pelo ID**
+- **Buscar Comunica√ß√£o Agendada pelo ID**
     - **GET** `/api/communication/findSchedulle/{schedulleId}`
 
-- **Cancelar ComunicaÁ„o Agendada**
+- **Cancelar Comunica√ß√£o Agendada**
     - **PATCH** `/api/communication/cancel/{schedulleId}`
 
 ## Testes
 
-Testes unit·rios est„o incluÌdos no projeto
+Testes unit√°rios est√£o inclu√≠dos no projeto
 
 ## Melhorias Futuras
 
-- Adicionar integraÁ„o completa com RabbitMQ.
+- Adicionar integra√ß√£o completa com RabbitMQ.
 - Criar uma imagem docker da API
 
-## LicenÁa
+## Licen√ßa
 
-Este projeto est· licenciado sob a licenÁa MIT.
+Este projeto est√° licenciado sob a licen√ßa MIT.
