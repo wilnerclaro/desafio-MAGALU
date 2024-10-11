@@ -108,4 +108,53 @@ class CommunicationServiceTest {
         verifyNoMoreInteractions(communicationRepository);
         verifyNoInteractions(communicationMapper);
     }
+
+    @Test
+    void deveCancelarAgendamentoPorIdComSucesso() {
+
+        Long scheduleId = communications.getId();
+
+        when(communicationRepository.findById(scheduleId)).thenReturn(Optional.of(communications));
+        when(communicationRepository.save(any(Communications.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(communicationMapper.convertToCommunicationDTO(any(Communications.class))).thenAnswer(invocation -> {
+            Communications updatedCommunication = invocation.getArgument(0);
+            updatedCommunication.setStatus(Status.CANCELLED);
+            updatedCommunication.setUpdateTime(LocalDateTime.now());
+            return new CommunicationDTOResponse(
+                    updatedCommunication.getScheduleTime(),
+                    updatedCommunication.getMenssage(),
+                    updatedCommunication.getRecipient(),
+                    updatedCommunication.getChannel(),
+                    updatedCommunication.getStatus()
+            );
+        });
+
+        CommunicationDTOResponse cancelScheduleCommunication = communicationService.cancelScheduleCommunicationById(communications.getId());
+
+        assertNotNull(cancelScheduleCommunication);
+        assertEquals(Status.CANCELLED, communications.getStatus());
+        assertEquals(communications.getMenssage(), cancelScheduleCommunication.menssage());
+        assertEquals(communications.getRecipient(), cancelScheduleCommunication.recipient());
+        assertEquals(communications.getChannel(), cancelScheduleCommunication.channel());
+        assertEquals(communications.getStatus(), cancelScheduleCommunication.status());
+
+        verify(communicationRepository, times(1)).findById(scheduleId);
+        verify(communicationRepository, times(1)).save(communications);
+        verify(communicationMapper, times(1)).convertToCommunicationDTO(communications);
+    }
+
+    @Test
+    void deveLancarExcecaoAoCancelarAgendamentoNaoEncontrado() {
+        Long scheduleId = 2L;
+        when(communicationRepository.findById(scheduleId)).thenReturn(Optional.empty());
+
+        CommunicationException exception = assertThrows(CommunicationException.class, () ->
+                communicationService.cancelScheduleCommunicationById(scheduleId)
+        );
+        assertEquals("Não foi encontrado o agendamento informado", exception.getMessage());
+
+        verify(communicationRepository, times(1)).findById(scheduleId);
+        verifyNoMoreInteractions(communicationRepository);
+        verifyNoInteractions(communicationMapper);
+    }
 }
