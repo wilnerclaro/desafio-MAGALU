@@ -1,6 +1,7 @@
 package br.com.desafio_magaLu.comunicacao.controller;
 
-import br.com.desafio_magaLu.comunicacao.domain.dto.CommunicationDTO;
+import br.com.desafio_magaLu.comunicacao.domain.dto.CommunicationDTORequest;
+import br.com.desafio_magaLu.comunicacao.domain.dto.CommunicationDTOResponse;
 import br.com.desafio_magaLu.comunicacao.service.CommunicationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -8,10 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,13 +20,31 @@ public class CommunicationController {
 
     @Operation(summary = "Realiza um novo agendamento", method = "POST")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Agendamento cadastrado  com sucesso"),
-            @ApiResponse(responseCode = "500", description = "Erro ao  realizar agendamento")
+            @ApiResponse(responseCode = "201", description = "Agendamento cadastrado  com sucesso")
     })
     @PostMapping("/new")
-    public ResponseEntity<CommunicationDTO> scheduleCommunication(@RequestBody CommunicationDTO communicationDTO) {
-        CommunicationDTO communication = communicationService.scheduleCommunication(communicationDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(communication);
+    public ResponseEntity<CommunicationDTOResponse> scheduleCommunication(@RequestBody CommunicationDTORequest communicationDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(communicationService.scheduleCommunication(communicationDTO));
+
+    }
+
+    @Operation(summary = "Realiza busca de um  agendamento", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca de agendamento efetuada  com sucesso")
+    })
+    @GetMapping("/findSchedulle/{schedulleId}")
+    public ResponseEntity<CommunicationDTOResponse> findScheduleCommunicationById(@RequestParam Long schedulleId) {
+        return ResponseEntity.status(HttpStatus.OK).body(communicationService.findScheduleCommunicationById(schedulleId));
+
+    }
+
+    @Operation(summary = "Realiza o cancelamento do agendamento", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Agendamento cancelado com sucesso!")
+    })
+    @PatchMapping("/cancel/{schedulleId}")
+    public ResponseEntity<CommunicationDTOResponse> cancelScheduleCommunicationById(@RequestParam Long schedulleId) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(communicationService.cancelScheduleCommunicationById(schedulleId));
 
     }
 

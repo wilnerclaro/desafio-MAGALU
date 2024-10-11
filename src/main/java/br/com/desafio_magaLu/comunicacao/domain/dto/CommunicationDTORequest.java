@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record CommunicationDTO(
+public record CommunicationDTORequest(
         LocalDateTime scheduleTime,
         String menssage, String recipient,
         CommunicationChannel channel) {

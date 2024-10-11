@@ -27,8 +27,10 @@ public class Communications {
     @Column(name = "DESTINATARIO")
     private String recipient;
     @Column(name = "TIPO_ENVIO")
+    @Enumerated(EnumType.STRING)
     private CommunicationChannel channel;
     @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
     private Status status;
     @Column(name = "MENSSAGEM_ID")
     private String rabbitMessageId;

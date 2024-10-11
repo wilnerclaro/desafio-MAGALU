@@ -3,7 +3,8 @@ package br.com.desafio_magaLu.comunicacao.service;
 import br.com.desafio_magaLu.comunicacao.domain.CommunicationChannel;
 import br.com.desafio_magaLu.comunicacao.domain.Communications;
 import br.com.desafio_magaLu.comunicacao.domain.Status;
-import br.com.desafio_magaLu.comunicacao.domain.dto.CommunicationDTO;
+import br.com.desafio_magaLu.comunicacao.domain.dto.CommunicationDTORequest;
+import br.com.desafio_magaLu.comunicacao.domain.dto.CommunicationDTOResponse;
 import br.com.desafio_magaLu.comunicacao.exception.CommunicationException;
 import br.com.desafio_magaLu.comunicacao.mapper.CommunicationMapper;
 import br.com.desafio_magaLu.comunicacao.repository.CommunicationRepository;
@@ -29,7 +30,8 @@ class CommunicationServiceTest {
     @Mock
     CommunicationMapper communicationMapper;
 
-    CommunicationDTO communicationDTO;
+    CommunicationDTOResponse communicationDTOResponse;
+    CommunicationDTORequest communicationDTORequest;
     Communications communications;
 
     @BeforeEach
@@ -41,7 +43,7 @@ class CommunicationServiceTest {
         communications.setChannel(CommunicationChannel.EMAIL);
         communications.setStatus(Status.SCHEDULED);
         communications.setMenssage("CENARIO 01");
-        communicationDTO = new CommunicationDTO(LocalDateTime.now(), "CENARIO 1", "TODOS", CommunicationChannel.EMAIL);
+        communicationDTORequest = new CommunicationDTORequest(LocalDateTime.now(), "CENARIO 1", "TODOS", CommunicationChannel.EMAIL);
     }
 
     @Test
@@ -58,11 +60,11 @@ class CommunicationServiceTest {
     @Test
     void deveDarExcptionCasoOcorraAlgumErroDuranteACriacaoDeUmAgendamento() {
 
-        when(communicationMapper.convertToCommunicationEntity(communicationDTO)).thenReturn(communications);
+        when(communicationMapper.convertToCommunicationEntity(communicationDTORequest)).thenReturn(communications);
         when(communicationRepository.save(any(Communications.class))).thenThrow(new CommunicationException("Falha ao agendar o envio da requisição: "));
 
         CommunicationException ex = assertThrows(CommunicationException.class, () -> {
-            communicationService.scheduleCommunication(communicationDTO);
+            communicationService.scheduleCommunication(communicationDTORequest);
         });
 
         assertEquals("Falha ao agendar o envio da requisição: ", ex.getMessage());
