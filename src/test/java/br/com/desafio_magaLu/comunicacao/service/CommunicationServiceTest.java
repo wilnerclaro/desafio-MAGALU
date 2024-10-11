@@ -16,9 +16,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,7 +43,14 @@ class CommunicationServiceTest {
         communications.setChannel(CommunicationChannel.EMAIL);
         communications.setStatus(Status.SCHEDULED);
         communications.setMenssage("CENARIO 01");
-        communicationDTORequest = new CommunicationDTORequest(LocalDateTime.now(), "CENARIO 1", "TODOS", CommunicationChannel.EMAIL);
+
+        communicationDTOResponse = new CommunicationDTOResponse(
+                communications.getScheduleTime(),
+                communications.getMenssage(),
+                communications.getRecipient(),
+                communications.getChannel(),
+                communications.getStatus()
+        );
     }
 
     @Test
@@ -68,5 +75,37 @@ class CommunicationServiceTest {
         });
 
         assertEquals("Falha ao agendar o envio da requisição: ", ex.getMessage());
+    }
+
+    @Test
+    void deveEncontrarAgendamentoPorIdComSucesso() {
+        Long scheduleId = communications.getId();
+        when(communicationRepository.findById(scheduleId)).thenReturn(Optional.of(communications));
+        when(communicationMapper.convertToCommunicationDTO(communications)).thenReturn(communicationDTOResponse);
+
+        CommunicationDTOResponse scheduleCommunicationById = communicationService.findScheduleCommunicationById(scheduleId);
+
+        assertNotNull(scheduleCommunicationById);
+        assertEquals(communications.getMenssage(), scheduleCommunicationById.menssage());
+        assertEquals(communications.getRecipient(), scheduleCommunicationById.recipient());
+        assertEquals(communications.getChannel(), scheduleCommunicationById.channel());
+        assertEquals(communications.getStatus(), scheduleCommunicationById.status());
+
+        verify(communicationRepository, times(1)).findById(scheduleId);
+        verify(communicationMapper, times(1)).convertToCommunicationDTO(communications);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoNaoEncontrarAgendamento() {
+        Long scheduleId = 2L;
+        when(communicationRepository.findById(scheduleId)).thenReturn(Optional.empty());
+        CommunicationException exception = assertThrows(CommunicationException.class, () ->
+                communicationService.findScheduleCommunicationById(scheduleId)
+        );
+        assertEquals("Não foi encontrado o agendamento informado", exception.getMessage());
+
+        verify(communicationRepository, times(1)).findById(scheduleId);
+        verifyNoMoreInteractions(communicationRepository);
+        verifyNoInteractions(communicationMapper);
     }
 }
