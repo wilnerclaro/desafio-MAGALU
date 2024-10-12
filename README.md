@@ -25,6 +25,7 @@ como EMAIL, SMS, etc., e são armazenadas em um banco de dados relacional.
 - **Swagger** : Documentação dos end-points da aplicação
 - **Mockito** : Framework responsável por auxiliar na criação e execução dos testes unitários
 - **JUnit5** : Framework responsável por auxiliar na criação e execução dos testes unitários
+- **Jacocoo** : Framework responsável por gerar relatório de cobertura de testes do código
 
 ## Pré-requisitos
 
